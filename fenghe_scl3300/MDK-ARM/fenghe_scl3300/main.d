@@ -40,5 +40,8 @@
 .\fenghe_scl3300\main.o: ../Inc/gpio.h
 .\fenghe_scl3300\main.o: ../Inc/delay.h
 .\fenghe_scl3300\main.o: ../Inc/scl3300.h
+.\fenghe_scl3300\main.o: ../Inc/lx12864.h
+.\fenghe_scl3300\main.o: ../Inc/dl7215.h
 .\fenghe_scl3300\main.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h
 .\fenghe_scl3300\main.o: D:\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\fenghe_scl3300\main.o: D:\keil\ARM\ARMCC\Bin\..\include\stdlib.h

@@ -41,6 +41,7 @@ typedef enum
 	SCL3300_D01_SPIERR 	= 3u
 }SCL3300_D01_Status;
 
+#pragma pack(1)
 typedef struct
 {
 	int16_t ACC_X;
@@ -55,6 +56,7 @@ typedef struct
 	float ANG_Y_r;
 	float ANG_Z_r;
 }SCL3300_D01_SensorDataTypeDef;
+#pragma pack()
 
 typedef struct
 {
@@ -152,6 +154,9 @@ typedef struct
 #define MSRMODE3	0x02u
 #define MSRMODE4	0x03u
 ////////////////////////////////////////////////////////////////////////////////////////////
+#define DATA_BUF_SIZE 256
+extern uint8_t data_buf[DATA_BUF_SIZE];
+
 extern SCL3300_D01_HandleTypeDef SCL3300_D01_Handle;
 
 extern SCL3300_D01_Status	SCL3300_D01_init(uint8_t mode);

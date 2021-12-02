@@ -32,21 +32,18 @@ bool fUART_OutPut;
 #define	Uart2DMA_RecvEn()  HAL_UART_Receive_DMA(&huart2, Uart2CurRxBuf, UART2_RX_BUF_MAX_LEN)
 
 /* 与SIM7600CE串口通讯参数 */
-bool fUart2RecvedData;//uart2接收到数据
 static uint8_t Uart2CurRxBuf[UART2_RX_BUF_MAX_LEN];
-
 uint8_t Uart2TotalRxBuf[UART2_RX_BUF_MAX_LEN];
 UartPara_t Uart2Para;
-bool fUart2RecvFrameCplt;//uart2接收完成一帧数据
-
 
 
 /* 与PC串口通讯参数 */
-bool fUart1RecvedData;
 static uint8_t Uart1CurRxBuf[UART1_RX_BUF_MAX_LEN];
-
 UartPara_t Uart1Para;
-bool fUart1RecvFrameCplt;
+
+/* 与lora串口通讯参数 */
+uint8_t Uart4CurRxBuf[UART4_RX_BUF_MAX_LEN];
+UartPara_t Uart4Para;
 
 
 /* USER CODE END 0 */
@@ -457,31 +454,39 @@ void UartUserInit(void)
 {
 	fUART_OutPut = false;
 	
-	fUart1RecvedData = false;
-    fUart1RecvFrameCplt = false;
-	fUart2RecvedData = false;
-    fUart2RecvFrameCplt = false;
-
 	memset(Uart2CurRxBuf, 0, UART2_RX_BUF_MAX_LEN);
 	memset(Uart2TotalRxBuf, 0, UART2_RX_BUF_MAX_LEN);
 	memset(&Uart2Para, 0, sizeof(Uart2Para));
 	Uart2Para.CurRxBuf = Uart2CurRxBuf;
 	Uart2Para.TotalRxBuf = Uart2TotalRxBuf;
 	Uart2Para.RxCpltJudgeDlySetting = 100;
+	Uart2Para.fDataReceiving = false;
+	Uart2Para.fDataReceived = false;
 	
 	memset(Uart1CurRxBuf, 0, UART1_RX_BUF_MAX_LEN);
 	memset(&Uart1Para, 0, sizeof(Uart1Para));
 	Uart1Para.CurRxBuf = Uart1CurRxBuf;
+	Uart1Para.fDataReceiving = false;
+    Uart1Para.fDataReceived = false;
+	
+	memset(Uart4CurRxBuf, 0, UART4_RX_BUF_MAX_LEN);
+	memset(&Uart4Para, 0, sizeof(Uart4Para));
+	Uart4Para.CurRxBuf = Uart4CurRxBuf;
+	Uart4Para.fDataReceiving = false;
+    Uart4Para.fDataReceived = false;
 
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);          //使能 USART1 IDLE中断
-	
-
 	/* 开启串口DMA接收中断使能 */
 	Uart1DMA_RecvEn();	//打开DMA接收，数据存入缓存
+	
+	
 #ifndef NOUSART2
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);          //使能 USART2 IDLE中断
 	Uart2DMA_RecvEn();
 #endif
+
+
+	 __HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);		//使能UART4 RXNE中断
 
 }
 
@@ -495,14 +500,14 @@ void UartUserInit(void)
 *****************************************************************************/
 void Uart1RxCpltJudge(void)
 {
-	if (fUart1RecvedData)
+	if (Uart1Para.fDataReceiving)
 	{
 		if (!u16TimeUart1RxCpltDly)
 		{		
-			fUart1RecvedData = false;
+			Uart1Para.fDataReceiving = false;
 			if (Uart1Para.CurRxCnt > 0)
 			{
-				fUart1RecvFrameCplt = true;
+				Uart1Para.fDataReceived = true;
 			}
 		}
 	}
@@ -518,14 +523,14 @@ void Uart1RxCpltJudge(void)
 *****************************************************************************/
 void Uart2RxCpltJudge(void)
 {
-	if (fUart2RecvedData)
+	if (Uart2Para.fDataReceiving)
 	{
 		if (!u16TimeUart2RxCpltDly)
 		{		
-			fUart2RecvedData = false;
+			Uart2Para.fDataReceiving = false;
 			if (Uart2Para.TotalRxCnt > 0)
 			{
-				fUart2RecvFrameCplt = true;
+				Uart2Para.fDataReceived = true;
 			}
 		}
 	}
@@ -567,7 +572,7 @@ void UART_IDLE_Callback(UART_HandleTypeDef *huart)
 			Uart2Para.CurRxCnt = UART2_RX_BUF_MAX_LEN - __HAL_DMA_GET_COUNTER(&hdma_usart2_rx);
 
 			u16TimeUart2RxCpltDly = 200;
-			fUart2RecvedData = true;
+			Uart2Para.fDataReceiving = true;
 			memcpy(Uart2TotalRxBuf + Uart2Para.TotalRxCnt, Uart2CurRxBuf, Uart2Para.CurRxCnt);
 			Uart2Para.TotalRxCnt += Uart2Para.CurRxCnt;
 			memset(Uart2CurRxBuf, 0, UART2_RX_BUF_MAX_LEN);
@@ -581,7 +586,7 @@ void UART_IDLE_Callback(UART_HandleTypeDef *huart)
 			HAL_UART_AbortReceive(huart);
 			Uart1Para.CurRxCnt = UART1_RX_BUF_MAX_LEN - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
 			u16TimeUart1RxCpltDly = 200;
-			fUart1RecvedData = true;
+			Uart1Para.fDataReceiving = true;
 			Uart1DMA_RecvEn();
 		}
 	}
@@ -702,6 +707,42 @@ void UartPorc(void)
 #ifndef NOUSART2
 	Uart2RxCpltJudge();
 #endif
+}
+
+
+//uart4 send char
+void Uart4_sendchar(uint8_t ch)
+{
+	while((UART4->SR&0x40)==0);						//wait usart1 trans complete
+	UART4->DR = ch;
+}
+
+
+//usart4 send str
+void Uart4_sendstr(char *Str)
+{
+	while(*Str!='\0')									
+	{
+		Uart4_sendchar(*Str);
+		Str++;
+	}
+}
+
+/**
+  * @brief This function handles UART4 global interrupt.
+  */
+void UART4_IRQHandler(void)
+{
+	if(UART4->SR & (uint8_t)(1<<5)){
+		Uart4Para.RxCpltJudgeDly = 100;
+		if(Uart4Para.fDataReceiving == false){
+//			HAL_NVIC_EnableIRQ(TIM3_IRQn);			//
+			Uart4Para.fDataReceiving = true;
+		}
+		Uart4CurRxBuf[Uart4Para.CurRxCnt++] = UART4->DR;//read data register and clear rxne bit in sr
+		if(Uart4Para.CurRxCnt > UART4_RX_BUF_MAX_LEN-1)
+			Uart4Para.CurRxCnt = 0;//make sure safety
+		}
 }
 /* USER CODE END 1 */
 

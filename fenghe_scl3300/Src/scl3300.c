@@ -1,7 +1,10 @@
 #include "scl3300.h"
 #include "delay.h"
+#include "string.h"
 
 float temper_value;
+uint8_t data_buf[DATA_BUF_SIZE];
+void ByteToHexStr(const unsigned char* source, uint8_t* dest, int sourceLen);
 
 void scl3300_gpio_init(){	
 	GPIO_InitTypeDef  GPIO_InitStruct = {0};
@@ -191,7 +194,9 @@ SCL3300_D01_Status	SCL3300_D01_init (uint8_t mode)
 	SCL3300_D01_Handle.sensor_data_handle.ANG_X = 0;
 	SCL3300_D01_Handle.sensor_data_handle.ANG_Y = 0;
 	SCL3300_D01_Handle.sensor_data_handle.ANG_Z = 0;//初始化SCL3300_D01_Handle中sensor_data_handle的数据
-	
+
+	temper_value = -99.9;
+	memset(data_buf, 0, DATA_BUF_SIZE);
 	
 	//*********SCL3300_D01  Start-Up Sequence***************************	
 	//-																																	//1.系统上电，VDD 	3.0V~3.6V
@@ -479,6 +484,9 @@ void SCL3300_D01_ReadSensorData(SCL3300_D01_HandleTypeDef *hscl3300)
 		hscl3300->sensor_data_handle.ANG_Y_r = (90.0 / 16384) * hscl3300->sensor_data_handle.ANG_Y;
 		hscl3300->sensor_data_handle.ANG_Z_r = (90.0 / 16384) * hscl3300->sensor_data_handle.ANG_Z;
 		
+		uint8_t *data_ptr = (uint8_t *) (&(hscl3300->sensor_data_handle));
+		ByteToHexStr(data_ptr, data_buf, 14);
+		
 		for( tmp_i = 0 ; tmp_i < 7 ; tmp_i++ )
 		{
 			if(tmp_status[tmp_i] == SCL3300_D01_SPIERR)
@@ -696,3 +704,29 @@ static SCL3300_D01_Status SCL3300_TransmitReceive(SCL3300_D01_HandleTypeDef *hsc
 //		tmp_CRC = (uint8_t)~tmp_CRC;
 //		return tmp_CRC;
 //}
+
+void ByteToHexStr(const unsigned char* source, uint8_t* dest, int sourceLen)
+{
+    short i;
+    unsigned char highByte, lowByte;
+ 
+    for (i = 0; i < sourceLen; i++)
+    {
+        highByte = source[i] >> 4;
+        lowByte = source[i] & 0x0f ;
+ 
+        highByte += 0x30;
+ 
+        if (highByte > 0x39)
+                dest[i * 2] = highByte + 0x07;
+        else
+                dest[i * 2] = highByte;
+ 
+        lowByte += 0x30;
+        if (lowByte > 0x39)
+            dest[i * 2 + 1] = lowByte + 0x07;
+        else
+            dest[i * 2 + 1] = lowByte;
+    }
+    return ;
+}

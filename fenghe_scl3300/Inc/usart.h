@@ -33,6 +33,7 @@
 #define	UART1_RX_BUF_MAX_LEN		  256
 #define	UART2_RX_BUF_MAX_LEN			2048    //FTP接收数据时单次最大为1024bytes (一包数据中还包含其它数据)
 #define	UART2_TX_BUF_MAX_LEN			256//512
+#define	UART4_RX_BUF_MAX_LEN		  256
 
 
 typedef struct
@@ -43,19 +44,20 @@ typedef struct
 	uint16_t TotalRxCnt;
 	uint16_t RxCpltJudgeDly;
 	uint32_t RxCpltJudgeDlySetting;
+	volatile bool fDataReceiving;
+	volatile bool fDataReceived;
 	volatile bool fTxDing;
 }UartPara_t;
 
 extern bool fUART_OutPut;
 
-extern bool fUart2RecvedData;
 extern UartPara_t Uart2Para;
 extern uint8_t Uart2TotalRxBuf[UART2_RX_BUF_MAX_LEN];
-extern bool fUart2RecvFrameCplt;
 
-extern bool fUart1RecvedData;
 extern UartPara_t Uart1Para;
-extern bool fUart1RecvFrameCplt;
+
+extern UartPara_t Uart4Para;
+extern uint8_t Uart4CurRxBuf[UART4_RX_BUF_MAX_LEN];
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart4;
@@ -73,10 +75,12 @@ void MX_USART2_UART_Init(void);
 void uartStop(UART_HandleTypeDef* huart);
 void UartUserInit(void);
 void UART_IDLE_Callback(UART_HandleTypeDef *huart);
+
 bool DMA_Uart1Transmit(uint8_t *Buf, uint16_t BufLen);
 bool DMA_Uart2Transmit(uint8_t *Buf, uint16_t BufLen);
+void Uart4_sendchar(uint8_t c);
+void Uart4_sendstr(char *Str);
 
-void UartPorc(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

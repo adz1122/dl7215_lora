@@ -31,8 +31,12 @@
 /* USER CODE BEGIN Includes */
 #include "delay.h"
 #include "scl3300.h"
+//#include "lcd12864.h"
+#include "lx12864.h"
+#include "dl7215.h"
 #include "string.h"
 #include "stdio.h"
+#include "stdlib.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -111,10 +115,13 @@ int main(void)
   delay_init(72);
   scl3300_gpio_init();
   SCL3300_D01_init(MSRMODE1);
+  lx12864_gpio_init();
+  Lx_Init();
   UartUserInit();
   StartTimer(&htim3);
+  while(!dl7215_init());
   
-  
+  uint8_t timecounter = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,7 +129,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  UartPorc();
 	  if(fUART_OutPut){
 		  RTC_Show();
 //		  delay_s(2);
@@ -131,13 +137,24 @@ int main(void)
 		  SCL3300_D01_ReadSensorData(&SCL3300_D01_Handle);
 		  printf("%d\t%d\t%d\t%d\n", SCL3300_D01_Handle.sensor_data_handle.ANG_X, SCL3300_D01_Handle.sensor_data_handle.ANG_Y, SCL3300_D01_Handle.sensor_data_handle.ANG_Z, SCL3300_D01_Handle.sensor_data_handle.Temperature);
 		  printf("%f\t%f\t%f\t%f\n", SCL3300_D01_Handle.sensor_data_handle.ANG_X_r, SCL3300_D01_Handle.sensor_data_handle.ANG_Y_r, SCL3300_D01_Handle.sensor_data_handle.ANG_Z_r, SCL3300_D01_Handle.sensor_data_handle.Temperature_r);
+		  
+//		  LCD_Display_Words(1,1,"hello");
+		  
+		  LxPutStr(0,0,"CA12864I2 Program");
+		  
+		  ++timecounter;
+		  if(timecounter >= 30){
+			  timecounter = 0;
+			  data_rtx_lora();
+		  }
+		  
 	  }
-	  if(fUart1RecvFrameCplt){
-		  fUart1RecvFrameCplt = false;
+	  if(Uart1Para.fDataReceived){
+		  Uart1Para.fDataReceived = false;
 		  DMA_Uart1Transmit(Uart1Para.CurRxBuf, Uart1Para.CurRxCnt);
 	  }
-	  if(fUart2RecvFrameCplt){
-		  fUart2RecvFrameCplt = false;
+	  if(Uart2Para.fDataReceived){
+		  Uart2Para.fDataReceived = false;
 		  DMA_Uart1Transmit(Uart2Para.TotalRxBuf, Uart2Para.TotalRxCnt);
 		  delay_ms(20);//delay to let uart1 transmit completed then clear the buf
 		  Uart2Para.TotalRxCnt = 0;

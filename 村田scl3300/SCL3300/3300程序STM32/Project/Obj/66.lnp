@@ -1,4 +1,0 @@
---device DARMSTM ".\obj\stm32f10x_it.o" ".\obj\main.o" "C:\Keil\ARM\RV31\LIB\ST\STM32F10xR.LIB" ".\obj\stm32f10x_vector.o" --library_type=microlib --strict --scatter ".\Obj\66.sct" 
---autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
---info sizes --info totals --info unused --info veneers 
- --list ".\Lst\66.map" -o ".\Obj\66.axf"

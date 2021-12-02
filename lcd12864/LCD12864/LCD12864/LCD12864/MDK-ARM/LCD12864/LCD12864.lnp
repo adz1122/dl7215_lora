@@ -1,0 +1,24 @@
+--cpu Cortex-M3
+"lcd12864\stm32f1xx_hal_tim_ex.o"
+"lcd12864\stm32f1xx_hal_flash.o"
+"lcd12864\stm32f1xx_hal_tim.o"
+"lcd12864\stm32f1xx_hal_dma.o"
+"lcd12864\stm32f1xx_hal_cortex.o"
+"lcd12864\stm32f1xx_hal_pwr.o"
+"lcd12864\stm32f1xx_hal.o"
+"lcd12864\stm32f1xx_hal_gpio_ex.o"
+"lcd12864\stm32f1xx_hal_gpio.o"
+"lcd12864\stm32f1xx_hal_flash_ex.o"
+"lcd12864\stm32f1xx_hal_rcc.o"
+"lcd12864\stm32f1xx_hal_rcc_ex.o"
+"lcd12864\stm32f1xx_hal_msp.o"
+"lcd12864\main.o"
+"lcd12864\stm32f1xx_it.o"
+"lcd12864\lcd12864.o"
+"lcd12864\delay.o"
+"lcd12864\startup_stm32f103xe.o"
+"lcd12864\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "LCD12864\LCD12864.sct"
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "LCD12864.map" -o LCD12864\LCD12864.axf

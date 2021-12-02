@@ -125,38 +125,51 @@ void Time(void)
 	{
 		fTime1ms = false;
 		
-		if (u16TimeUart1RxCpltDly)
-		{
-		  u16TimeUart1RxCpltDly--;
-		}
-		if (u16TimeUart2RxCpltDly)
-		{
-		  u16TimeUart2RxCpltDly--;
-		}
-//		if (fUart1RecvedData)
+//		if (u16TimeUart1RxCpltDly)
 //		{
-//			u16TimeUart1RxCpltDly--;
-//			if (u16TimeUart1RxCpltDly == 0)//to judge whether usart1 receive completed
-//			{		
-//				fUart1RecvedData = false;
-//				if (Uart1Para.CurRxCnt > 0)
-//				{
-//					fUart1RecvFrameCplt = true;
-//				}
-//			}
+//		  u16TimeUart1RxCpltDly--;
 //		}
-//		if (fUart2RecvedData)
+//		if (u16TimeUart2RxCpltDly)
 //		{
-//			u16TimeUart2RxCpltDly--;
-//			if (u16TimeUart2RxCpltDly == 0)//to judge whether usart2 receive completed
-//			{		
-//				fUart2RecvedData = false;
-//				if (Uart2Para.CurRxCnt > 0)
-//				{
-//					fUart2RecvFrameCplt = true;
-//				}
-//			}
+//		  u16TimeUart2RxCpltDly--;
 //		}
+		if (Uart1Para.fDataReceiving)
+		{
+			u16TimeUart1RxCpltDly--;
+			if (u16TimeUart1RxCpltDly == 0)//to judge whether usart1 receive completed
+			{		
+				Uart1Para.fDataReceiving = false;
+				if (Uart1Para.CurRxCnt > 0)
+				{
+					Uart1Para.fDataReceived = true;
+				}
+			}
+		}
+		if (Uart2Para.fDataReceiving)
+		{
+			u16TimeUart2RxCpltDly--;
+			if (u16TimeUart2RxCpltDly == 0)//to judge whether usart2 receive completed
+			{		
+				Uart2Para.fDataReceiving = false;
+				if (Uart2Para.TotalRxCnt > 0)
+				{
+					Uart2Para.fDataReceived = true;
+				}
+			}
+		}
+		if (Uart4Para.fDataReceiving)
+		{
+			Uart4Para.RxCpltJudgeDly--;
+			if (Uart4Para.RxCpltJudgeDly == 0)//to judge whether usart1 receive completed
+			{		
+				Uart4Para.fDataReceiving = false;
+				if (Uart4Para.CurRxCnt > 0)
+				{
+//					Uart4CurRxBuf[Uart4Para.CurRxCnt++] = 0;
+					Uart4Para.fDataReceived = true;
+				}
+			}
+		}
 		if (u16gTimModemRdyDly)
 		{
 		  u16gTimModemRdyDly--;

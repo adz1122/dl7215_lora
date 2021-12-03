@@ -33,3 +33,7 @@
 .\fenghe_scl3300\lx12864.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 .\fenghe_scl3300\lx12864.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 .\fenghe_scl3300\lx12864.o: ../Inc/delay.h
+.\fenghe_scl3300\lx12864.o: D:\keil\ARM\ARMCC\Bin\..\include\stdio.h
+.\fenghe_scl3300\lx12864.o: ../Inc/rtc.h
+.\fenghe_scl3300\lx12864.o: ../Inc/scl3300.h
+.\fenghe_scl3300\lx12864.o: D:\keil\ARM\ARMCC\Bin\..\include\string.h

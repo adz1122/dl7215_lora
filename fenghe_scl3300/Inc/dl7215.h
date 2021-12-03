@@ -4,6 +4,6 @@
 #include "stdbool.h"
 
 bool dl7215_init(void);
-void data_rtx_lora(void);
+bool data_rtx_lora(void);
 
 #endif

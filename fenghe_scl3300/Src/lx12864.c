@@ -1,8 +1,17 @@
 #include "lx12864.h"
 #include "delay.h"
+#include "stdio.h"
+#include "rtc.h"
+#include "scl3300.h"
+#include "string.h"
 
 uint8_t ASCIIchardot[];
 uint8_t ComTable[]={3,2,1,0,7,6,5,4};
+
+uint8_t lx12864_string1[16];
+uint8_t lx12864_string2[16];
+uint8_t lx12864_string3[16];
+uint8_t lx12864_string4[16];
 
 void lx12864_gpio_init()
 {
@@ -67,6 +76,20 @@ void WriteData( uint8_t DataByte ) {
 	LX12864_CS_HIGH;
 }
 
+void LxClear_page(uint8_t page, uint8_t FillData){
+	uint8_t i,j;
+	for(i=(page-1)*2;i<page*2;i++)//page 1 2 3 4对应屏幕1 2 3 4行
+	{
+		WriteCommand(0xB0|ComTable[i]); //Set Page Address
+		WriteCommand(0x10); //Set Column Address = 0
+		WriteCommand(0x01); //Colum from S1 -> S128 auto add
+		for(j=0;j<128;j++)
+		{
+			WriteData( FillData );
+		} 
+	} 
+}
+
 void LxClear( uint8_t FillData ) {
 	uint8_t i,j;
 	for(i=0;i<8;i++)
@@ -92,7 +115,16 @@ void Lx_Init( void ) {
 	WriteCommand(0xC0); //com1 --> com64
 	WriteCommand(0x24); //对某些模块没用,用的外部 Rb/Ra
 	WriteCommand(0x81); //Sets V0
-	WriteCommand(48); //内部电位器调节对比度
+	WriteCommand(42); //内部电位器调节对比度，越小屏幕对比度越大，就越亮
+//	for(uint8_t i=(contrast-10);i<(contrast+10);i++)
+//  {
+//	  WriteCommand(0x81); //Sets V0
+//	  WriteCommand(0x3F&i); //内部电位器调节对比度
+//	  LxPutNum(10,2,i);
+//	  delay_s(1);
+//  }
+//  WriteCommand(0x81); //Sets V0
+//  WriteCommand(contrast); //恢复对比度
 	WriteCommand(0x2F); //voltage follower ON regulator ON booster ON
 	WriteCommand(0xA6); //Normal Display (not reverse dispplay)
 	WriteCommand(0xA4); //Entire Display Disable
@@ -102,6 +134,20 @@ void Lx_Init( void ) {
 	WriteCommand(0x01); //Set Column Address 4 lower bits = 1 , from IC SEG1 -> SEG128
 	LxClear(0);
 	WriteCommand(0xAF); //Display ON
+	
+	
+	
+	
+	sprintf((char *)lx12864_string1, "Fenghe Pole Lean");
+	sprintf((char *)lx12864_string2, "connecting...");
+	sprintf((char *)lx12864_string3, "X:--Y:--Z:--T:--");
+	sprintf((char *)lx12864_string4, "xxxx-xx-xx xx:xx");
+	LxPutStr(0,0,lx12864_string1);
+    LxPutStr(0,2,lx12864_string2);
+    LxPutStr(0,4,lx12864_string3);
+    LxPutStr(0,6,lx12864_string4);
+	
+	
 }
 //显示 ASICC 字符的函数
 void LxPutChar(uint8_t col,uint8_t page,uint8_t Order)
@@ -179,6 +225,37 @@ void LxPutBmp( uint8_t *puts ) {
 			X++;
 		} 
 	} 
+}
+
+void LxShow(uint8_t index, uint8_t dl7215_trx_state){
+	switch(index){
+		case 2:
+			LxClear_page(2, 0);
+			memset(lx12864_string2, 0, sizeof(lx12864_string2));
+			if(dl7215_trx_state == LORA_RTX_STATE_MEASURING)
+				sprintf((char *)lx12864_string2, "measuring...");
+			else if(dl7215_trx_state == LORA_RTX_STATE_SUCCESS)
+				sprintf((char *)lx12864_string2, "send succeed!");
+			else if(dl7215_trx_state == LORA_RTX_STATE_FAIL)
+				sprintf((char *)lx12864_string2, "send failed!");
+			LxPutStr(0,2,lx12864_string2);
+			break;
+		case 4:
+			LxClear_page(3, 0);
+			memset(lx12864_string3, 0, sizeof(lx12864_string2));
+			sprintf((char *)lx12864_string3, "X:%-2dY:%-2dZ:%-2dT:%2d", (uint8_t)SCL3300_D01_Handle.sensor_data_handle.ANG_X_r, (uint8_t)SCL3300_D01_Handle.sensor_data_handle.ANG_Y_r, (uint8_t)SCL3300_D01_Handle.sensor_data_handle.ANG_Z_r, (uint8_t)SCL3300_D01_Handle.sensor_data_handle.Temperature_r);
+			LxPutStr(0,4,lx12864_string3);
+			break;
+		case 6:
+			LxClear_page(4, 0);
+			memset(lx12864_string4, 0, sizeof(lx12864_string2));
+			sprintf((char *)lx12864_string4, "%4d-%2d-%2d %2d:%2d", calendar.w_year, calendar.w_month, calendar.w_date, calendar.hour, calendar.min);
+			LxPutStr(0,6,lx12864_string4);
+			break;
+		default:
+			break;
+	}
+			  
 }
 
 /* ASICC 字库代码 8x16 点阵 */

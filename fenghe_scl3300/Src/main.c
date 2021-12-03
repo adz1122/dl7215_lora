@@ -113,13 +113,19 @@ int main(void)
   /* USER CODE BEGIN 2 */
   MY_RTC_Init();
   delay_init(72);
+  
   scl3300_gpio_init();
   SCL3300_D01_init(MSRMODE1);
+  
   lx12864_gpio_init();
   Lx_Init();
+  
   UartUserInit();
+  
   StartTimer(&htim3);
+  
   while(!dl7215_init());
+  
   
   uint8_t timecounter = 0;
   /* USER CODE END 2 */
@@ -140,12 +146,18 @@ int main(void)
 		  
 //		  LCD_Display_Words(1,1,"hello");
 		  
-		  LxPutStr(0,0,"CA12864I2 Program");
-		  
+		  		  
 		  ++timecounter;
-		  if(timecounter >= 30){
+		  if(timecounter == 10)
+			  LxShow(2, LORA_RTX_STATE_MEASURING);
+		  if(timecounter >= 60){
 			  timecounter = 0;
-			  data_rtx_lora();
+			  LxShow(4,OTHER_IDLE);
+			  LxShow(6,OTHER_IDLE);
+			  if(data_rtx_lora())
+				LxShow(2, LORA_RTX_STATE_SUCCESS);	
+			  else
+				LxShow(2, LORA_RTX_STATE_FAIL);	
 		  }
 		  
 	  }

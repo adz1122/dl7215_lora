@@ -448,11 +448,6 @@
               <FilePath>..\Src\scl3300.c</FilePath>
             </File>
             <File>
-              <FileName>lcd12864.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\lcd12864.c</FilePath>
-            </File>
-            <File>
               <FileName>dl7215.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\dl7215.c</FilePath>

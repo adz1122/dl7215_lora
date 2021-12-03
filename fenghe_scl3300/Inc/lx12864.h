@@ -28,8 +28,18 @@
 #define LxXPixel 128 //横向宽度
 #define LxYPixel 64 //纵向高度
 
+#define LORA_RTX_STATE_MEASURING 0
+#define LORA_RTX_STATE_SUCCESS 1
+#define LORA_RTX_STATE_FAIL 2
+#define OTHER_IDLE 99
+
+void WriteCommand( uint8_t CommandByte );
+
 void lx12864_gpio_init(void);
 void Lx_Init(void);
 void LxPutStr(uint8_t col,uint8_t page,uint8_t *puts);
+void LxPutNum(uint8_t col,uint8_t page,uint8_t Num);
+void LxClear( uint8_t FillData );
+void LxShow(uint8_t index, uint8_t dl7215_trx_state);
 
 #endif

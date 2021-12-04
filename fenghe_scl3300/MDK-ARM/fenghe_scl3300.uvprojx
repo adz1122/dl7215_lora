@@ -457,6 +457,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\lx12864.c</FilePath>
             </File>
+            <File>
+              <FileName>sediment.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\sediment.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

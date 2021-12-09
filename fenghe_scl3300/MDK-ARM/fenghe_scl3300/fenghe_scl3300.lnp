@@ -13,6 +13,7 @@
 ".\fenghe_scl3300\scl3300.o"
 ".\fenghe_scl3300\dl7215.o"
 ".\fenghe_scl3300\lx12864.o"
+".\fenghe_scl3300\sediment.o"
 ".\fenghe_scl3300\stm32f1xx_hal_gpio_ex.o"
 ".\fenghe_scl3300\stm32f1xx_hal_iwdg.o"
 ".\fenghe_scl3300\stm32f1xx_hal_rtc.o"

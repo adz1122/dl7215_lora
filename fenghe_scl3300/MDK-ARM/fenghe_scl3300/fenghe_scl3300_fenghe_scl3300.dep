@@ -1,6 +1,6 @@
 Dependencies for Project 'fenghe_scl3300', Target 'fenghe_scl3300': (DO NOT MODIFY !)
 F (startup_stm32f103xe.s)(0x6198841A)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_fenghe_scl3300-ID:\keil\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\keil\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include--pd "__UVISION_VERSION SETA 526" --pd "_RTE_ SETA 1" --pd "STM32F10X_HD SETA 1"--list .\fenghe_scl3300\startup_stm32f103xe.lst --xref -o .\fenghe_scl3300\startup_stm32f103xe.o --depend .\fenghe_scl3300\startup_stm32f103xe.d)
-F (../Src/main.c)(0x61A99369)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_fenghe_scl3300-ID:\keil\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\keil\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE -DUSE_HAL_DRIVER -DSTM32F103xE-o .\fenghe_scl3300\main.o --omf_browse .\fenghe_scl3300\main.crf --depend .\fenghe_scl3300\main.d)
+F (../Src/main.c)(0x61ADECE6)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_fenghe_scl3300-ID:\keil\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\keil\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE -DUSE_HAL_DRIVER -DSTM32F103xE-o .\fenghe_scl3300\main.o --omf_browse .\fenghe_scl3300\main.crf --depend .\fenghe_scl3300\main.d)
 I (../Inc/main.h)(0x61A60FF5)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x61601F24)
 I (../Inc/stm32f1xx_hal_conf.h)(0x61988417)
@@ -461,6 +461,42 @@ I (../Inc/delay.h)(0x616A8830)
 I (D:\keil\ARM\ARMCC\include\stdio.h)(0x599EDB3C)
 I (../Inc/rtc.h)(0x61989E73)
 I (../Inc/scl3300.h)(0x61A8A259)
+I (D:\keil\ARM\ARMCC\include\string.h)(0x599EDB3C)
+F (..\Src\sediment.c)(0x61ADED41)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_fenghe_scl3300-ID:\keil\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\keil\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE -DUSE_HAL_DRIVER -DSTM32F103xE-o .\fenghe_scl3300\sediment.o --omf_browse .\fenghe_scl3300\sediment.crf --depend .\fenghe_scl3300\sediment.d)
+I (../Inc/sediment.h)(0x61AB1214)
+I (../Inc/main.h)(0x61A60FF5)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x61601F24)
+I (../Inc/stm32f1xx_hal_conf.h)(0x61988417)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x61601F24)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x61601F24)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h)(0x61601F24)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x61601F16)
+I (D:\keil\ARM\ARMCC\include\stdint.h)(0x599EDB3E)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x61601F16)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x61601F16)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x61601F16)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x61601F24)
+I (D:\keil\ARM\ARMCC\include\stddef.h)(0x599EDB3C)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_iwdg.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x61601F24)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x61601F24)
+I (../Inc/usart.h)(0x61A86F8A)
+I (D:\keil\ARM\ARMCC\include\stdbool.h)(0x599EDB3E)
 I (D:\keil\ARM\ARMCC\include\string.h)(0x599EDB3C)
 F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c)(0x61601F25)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_fenghe_scl3300-ID:\keil\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\keil\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F10X_HD -DUSE_HAL_DRIVER -DSTM32F103xE -DUSE_HAL_DRIVER -DSTM32F103xE-o .\fenghe_scl3300\stm32f1xx_hal_gpio_ex.o --omf_browse .\fenghe_scl3300\stm32f1xx_hal_gpio_ex.crf --depend .\fenghe_scl3300\stm32f1xx_hal_gpio_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x61601F24)

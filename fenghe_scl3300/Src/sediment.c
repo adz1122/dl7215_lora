@@ -13,6 +13,7 @@ void handle_sediment_data(){
 		  Uart2Para.TotalRxCnt = 0;
 		  memset(Uart2Para.TotalRxBuf, 0, UART2_RX_BUF_MAX_LEN);
 	  }
+	  }
 }
 
 //char PrepareSettlingData(void)

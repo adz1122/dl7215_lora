@@ -124,7 +124,7 @@ int main(void)
   
   StartTimer(&htim3);
   
-  while(!dl7215_init());
+ // while(!dl7215_init());
   
   
   uint8_t timecounter = 0;
@@ -154,9 +154,9 @@ int main(void)
 			  timecounter = 0;
 			  LxShow(4,OTHER_IDLE);
 			  LxShow(6,OTHER_IDLE);
-			  if(data_rtx_lora())
+//			  if(data_rtx_lora())
 				LxShow(2, LORA_RTX_STATE_SUCCESS);	
-			  else
+//			  else
 				LxShow(2, LORA_RTX_STATE_FAIL);	
 		  }
 		  
